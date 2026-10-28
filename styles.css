@@ -103,6 +103,16 @@ svg {
   cursor: pointer;
 }
 
+.price-point-group {
+  cursor: pointer;
+}
+
+.price-point-hit,
+.scatter-point-hit {
+  cursor: pointer;
+  pointer-events: all;
+}
+
 .price-series:hover .price-line,
 .price-series:focus-within .price-line {
   stroke-width: 4;
@@ -110,7 +120,9 @@ svg {
 }
 
 .price-point:hover,
-.price-point:focus-visible {
+.price-point:focus-visible,
+.price-point-group:hover .price-point,
+.price-point-group:focus-within .price-point {
   r: 5px;
 }
 
@@ -120,11 +132,33 @@ svg {
 }
 
 .scatter-point:hover,
-.scatter-point:focus-visible {
+.scatter-point:focus-visible,
+.scatter-point-group:hover .scatter-point,
+.scatter-point-group:focus-within .scatter-point {
   opacity: 1;
   transform: scale(1.7);
   transform-box: fill-box;
   transform-origin: center;
+}
+
+.chart-tooltip {
+  position: fixed;
+  z-index: 10;
+  max-width: 260px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background: #26332e;
+  color: white;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.chart-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .technology-slice:hover,
@@ -138,6 +172,8 @@ svg {
 @media (prefers-reduced-motion: reduce) {
   .price-line,
   .price-point,
+  .price-point-hit,
+  .scatter-point-hit,
   .energy-bar,
   .scatter-point,
   .technology-slice {

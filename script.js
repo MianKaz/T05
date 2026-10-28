@@ -19,6 +19,34 @@ Promise.all([
     document.querySelector("#charts").prepend(message);
   });
 
+const chartTooltip = d3.select("#chart-tooltip");
+
+function showChartTooltip(event, text) {
+  chartTooltip
+    .text(text)
+    .style("left", `${event.clientX + 12}px`)
+    .style("top", `${event.clientY + 12}px`)
+    .classed("visible", true);
+}
+
+function hideChartTooltip() {
+  chartTooltip.classed("visible", false);
+}
+
+function addChartTooltip(targets, getText) {
+  targets
+    .on("pointermove", (event, datum) => showChartTooltip(event, getText(datum)))
+    .on("pointerleave", hideChartTooltip)
+    .on("focus", (event, datum) => {
+      const bounds = event.currentTarget.getBoundingClientRect();
+      showChartTooltip({
+        clientX: bounds.left + bounds.width / 2,
+        clientY: bounds.top + bounds.height / 2
+      }, getText(datum));
+    })
+    .on("blur", hideChartTooltip);
+}
+
 // Draw a line for each region in the electricity price dataset.
 function drawPriceChart(data) {
   const svg = d3.select("#price-chart");
@@ -70,17 +98,27 @@ function drawPriceChart(data) {
       .attr("stroke", colors(region))
       .attr("stroke-width", 2)
       .attr("d", line);
-    series.selectAll(".price-point")
+    const points = series.selectAll(".price-point-group")
       .data(regionData.filter(d => d.value !== ""))
-      .join("circle")
+      .join("g")
+      .attr("class", "price-point-group");
+    points.append("circle")
       .attr("class", "price-point")
       .attr("cx", d => x(year(d)))
       .attr("cy", d => y(+d.value))
       .attr("r", 3)
-      .attr("fill", colors(region))
+      .attr("fill", colors(region));
+    const hitTargets = points.append("circle")
+      .attr("class", "price-point-hit")
+      .attr("cx", d => x(year(d)))
+      .attr("cy", d => y(+d.value))
+      .attr("r", 11)
+      .attr("fill", "transparent")
       .attr("tabindex", 0)
-      .append("title")
-      .text(d => `${region.replace(" ($ per megawatt hour)", "")}, ${d.Year}: $${d.value}/MWh`);
+      .attr("aria-label", d => `${region.replace(" ($ per megawatt hour)", "")}, ${d.Year}: $${d.value} per megawatt hour`);
+    addChartTooltip(hitTargets, d =>
+      `${region.replace(" ($ per megawatt hour)", "")} · ${d.Year}: $${d.value} per megawatt hour`
+    );
 
     d3.select("#price-legend")
       .append("span")
@@ -182,19 +220,29 @@ function drawScatterChart(data) {
     .attr("text-anchor", "middle")
     .text("Energy use (kWh/year)");
 
-  // A circle marks each TV row in the original dataset.
-  svg.selectAll("circle")
+  // Each TV row gets a visible dot and a larger, easier-to-hover target.
+  const points = svg.selectAll(".scatter-point-group")
     .data(data.filter(d => d.screensize && d.energy_consumpt))
-    .join("circle")
+    .join("g")
+    .attr("class", "scatter-point-group");
+  points.append("circle")
     .attr("class", "scatter-point")
     .attr("cx", d => x(+d.screensize))
     .attr("cy", d => y(+d.energy_consumpt))
     .attr("r", 3)
     .attr("fill", "#368b78")
-    .attr("opacity", 0.55)
+    .attr("opacity", 0.55);
+  const hitTargets = points.append("circle")
+    .attr("class", "scatter-point-hit")
+    .attr("cx", d => x(+d.screensize))
+    .attr("cy", d => y(+d.energy_consumpt))
+    .attr("r", 10)
+    .attr("fill", "transparent")
     .attr("tabindex", 0)
-    .append("title")
-    .text(d => `${d.brand}, ${d.screen_tech}: ${d.screensize}" — ${d.energy_consumpt} kWh/year`);
+    .attr("aria-label", d => `${d.brand}, ${d.screen_tech}: ${d.screensize} inch screen, ${d.energy_consumpt} kWh per year`);
+  addChartTooltip(hitTargets, d =>
+    `${d.brand} · ${d.screen_tech} · ${d.screensize} inch · ${d.energy_consumpt} kWh/year`
+  );
 }
 
 // Add up the TV counts for each screen technology and show their shares.
