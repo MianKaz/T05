@@ -1,9 +1,9 @@
 // Load the CSV files, then draw one chart for each dataset.
 Promise.all([
-  d3.csv("data/Ex5_ARE_Spot_Prices.csv"),
-  d3.csv("data/Ex5_TV_energy_Allsizes_byScreenType.csv"),
-  d3.csv("data/Ex5_TV_energy_55inchtv_byScreenType.csv"),
-  d3.csv("data/Ex5_TV_energy.csv")
+  d3.csv("chart/data/Ex5_ARE_Spot_Prices.csv"),
+  d3.csv("chart/data/Ex5_TV_energy_Allsizes_byScreenType.csv"),
+  d3.csv("chart/data/Ex5_TV_energy_55inchtv_byScreenType.csv"),
+  d3.csv("chart/data/Ex5_TV_energy.csv")
 ])
   .then(([prices, allSizes, size55, televisions]) => {
     drawPriceChart(prices);
