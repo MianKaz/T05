@@ -62,12 +62,25 @@ function drawPriceChart(data) {
   // Each line is one region; blank CSV values become gaps in the line.
   regionNames.forEach(region => {
     const regionData = data.map(row => ({ Year: row.Year, value: row[region] }));
-    svg.append("path")
+    const series = svg.append("g").attr("class", "price-series");
+    series.append("path")
       .datum(regionData)
+      .attr("class", "price-line")
       .attr("fill", "none")
       .attr("stroke", colors(region))
       .attr("stroke-width", 2)
       .attr("d", line);
+    series.selectAll(".price-point")
+      .data(regionData.filter(d => d.value !== ""))
+      .join("circle")
+      .attr("class", "price-point")
+      .attr("cx", d => x(year(d)))
+      .attr("cy", d => y(+d.value))
+      .attr("r", 3)
+      .attr("fill", colors(region))
+      .attr("tabindex", 0)
+      .append("title")
+      .text(d => `${region.replace(" ($ per megawatt hour)", "")}, ${d.Year}: $${d.value}/MWh`);
 
     d3.select("#price-legend")
       .append("span")
@@ -123,6 +136,8 @@ function drawEnergyChart(allSizes, size55) {
       .attr("width", xSeries.bandwidth())
       .attr("height", d => y(0) - y(+d[valueColumn]))
       .attr("fill", group.color)
+      .attr("class", "energy-bar")
+      .attr("tabindex", 0)
       .append("title")
       .text(d => `${group.name}: ${Math.round(+d[valueColumn])} kWh/year`);
   });
@@ -171,11 +186,13 @@ function drawScatterChart(data) {
   svg.selectAll("circle")
     .data(data.filter(d => d.screensize && d.energy_consumpt))
     .join("circle")
+    .attr("class", "scatter-point")
     .attr("cx", d => x(+d.screensize))
     .attr("cy", d => y(+d.energy_consumpt))
     .attr("r", 3)
     .attr("fill", "#368b78")
     .attr("opacity", 0.55)
+    .attr("tabindex", 0)
     .append("title")
     .text(d => `${d.brand}, ${d.screen_tech}: ${d.screensize}" — ${d.energy_consumpt} kWh/year`);
 }
@@ -197,10 +214,12 @@ function drawTechnologyChart(data) {
   group.selectAll("path")
     .data(pie(totals))
     .join("path")
+    .attr("class", "technology-slice")
     .attr("d", arc)
     .attr("fill", d => colors(d.data.technology))
     .attr("stroke", "white")
     .attr("stroke-width", 2)
+    .attr("tabindex", 0)
     .append("title")
     .text(d => `${d.data.technology}: ${d.data.count} TVs`);
 
