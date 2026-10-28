@@ -6,6 +6,13 @@ Promise.all([
   d3.csv("chart/data/Ex5_TV_energy.csv")
 ])
   .then(([prices, allSizes, size55, televisions]) => {
+    const regionNames = Object.keys(prices[0]).filter(name =>
+      name !== "Year" && !name.startsWith("Average")
+    );
+    d3.select("#price-period")
+      .text(`${prices[0].Year}–${prices[prices.length - 1].Year}`);
+    d3.select("#region-count").text(regionNames.length);
+    d3.select("#listing-count").text(d3.format(",")(televisions.length));
     drawPriceChart(prices);
     drawEnergyChart(allSizes, size55);
     drawScatterChart(televisions);

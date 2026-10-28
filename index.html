@@ -8,23 +8,81 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   </head>
   <body>
-    <header>
-      <h1>TV Energy and Electricity Prices</h1>
-      <p>A few simple charts made with the provided datasets.</p>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#" aria-label="Energy and screen data dashboard home">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span>Data desk <span class="brand-divider">/</span> Energy</span>
+        </a>
+        <span class="header-tag"><span class="status-dot"></span> DATA OVERVIEW</span>
+        <div class="header-copy">
+          <p class="eyebrow">A small collection of real-world datasets</p>
+          <h1>Energy, at a glance.</h1>
+          <p>Explore Australian electricity prices alongside energy use across television screen types and sizes.</p>
+        </div>
+      </div>
     </header>
 
-    <main id="charts">
+    <main class="dashboard">
+      <section class="summary" aria-label="Dataset summary">
+        <article class="summary-card">
+          <span class="summary-icon" aria-hidden="true">↗</span>
+          <div>
+            <p class="summary-label">PRICE HISTORY</p>
+            <p id="price-period" class="summary-value">1998–2024</p>
+            <p class="summary-detail">Annual regional spot prices</p>
+          </div>
+        </article>
+        <article class="summary-card">
+          <span class="summary-icon" aria-hidden="true">▥</span>
+          <div>
+            <p class="summary-label">REGIONS</p>
+            <p id="region-count" class="summary-value">6</p>
+            <p class="summary-detail">Electricity price series</p>
+          </div>
+        </article>
+        <article class="summary-card">
+          <span class="summary-icon" aria-hidden="true">▦</span>
+          <div>
+            <p class="summary-label">TV MODEL GROUPS</p>
+            <p id="listing-count" class="summary-value">—</p>
+            <p class="summary-detail">Grouped brand and screen entries</p>
+          </div>
+        </article>
+      </section>
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">THE DASHBOARD</p>
+          <h2>Explore the data</h2>
+        </div>
+        <p class="section-note">Hover or focus chart marks to see details</p>
+      </div>
+
+      <section id="charts" class="chart-grid" aria-label="Energy and television charts">
       <section class="chart-card">
-        <h2>Electricity spot prices by region</h2>
-        <p>Average annual price, 1998–2024 ($ per megawatt hour)</p>
+        <div class="card-heading">
+          <div class="card-title">
+            <span class="card-index">01</span>
+            <h3>Electricity spot prices</h3>
+          </div>
+          <span class="chart-type">PRICE HISTORY</span>
+        </div>
+        <p class="card-description">Annual average by region · $ per megawatt hour</p>
         <div id="price-legend" class="legend" aria-label="Price chart legend"></div>
         <svg id="price-chart" viewBox="0 0 760 360" role="img" aria-label="Line chart of annual electricity spot prices by region"></svg>
       </section>
 
       <section class="chart-card">
-        <h2>TV energy use by screen technology</h2>
-        <p>Average labelled energy consumption (kWh/year)</p>
-        <div class="legend">
+        <div class="card-heading">
+          <div class="card-title">
+            <span class="card-index">02</span>
+            <h3>Energy use by screen type</h3>
+          </div>
+          <span class="chart-type">COMPARISON</span>
+        </div>
+        <p class="card-description">Average labelled consumption · kWh per year</p>
+        <div class="legend series-legend">
           <span><i class="swatch all-sizes"></i>All sizes</span>
           <span><i class="swatch size-55"></i>55-inch TVs</span>
         </div>
@@ -32,18 +90,40 @@
       </section>
 
       <section class="chart-card">
-        <h2>Screen size and energy use</h2>
-        <p>Each dot represents a TV listing in the dataset.</p>
+        <div class="card-heading">
+          <div class="card-title">
+            <span class="card-index">03</span>
+            <h3>Screen size &amp; energy use</h3>
+          </div>
+          <span class="chart-type">TV LISTINGS</span>
+        </div>
+        <p class="card-description">Each dot represents one grouped TV model entry</p>
         <svg id="scatter-chart" viewBox="0 0 760 360" role="img" aria-label="Scatter plot of TV screen size and energy consumption"></svg>
       </section>
 
       <section class="chart-card">
-        <h2>TV listings by screen technology</h2>
-        <p>Share of listings in the dataset, grouped by screen technology.</p>
-        <svg id="technology-chart" viewBox="0 0 400 320" role="img" aria-label="Donut chart showing the share of TV listings by screen technology"></svg>
-        <div id="technology-legend" class="legend"></div>
+        <div class="card-heading">
+          <div class="card-title">
+            <span class="card-index">04</span>
+            <h3>Screen technology mix</h3>
+          </div>
+          <span class="chart-type">COMPOSITION</span>
+        </div>
+        <p class="card-description">Share of television listings by technology</p>
+        <div class="technology-layout">
+          <svg id="technology-chart" viewBox="0 0 400 320" role="img" aria-label="Donut chart showing the share of TV listings by screen technology"></svg>
+          <div id="technology-legend" class="legend technology-legend"></div>
+        </div>
+      </section>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>&copy; 2026 Damian Nyurang</span>
+        <span>Built with assistance from Microsoft Copilot AI for starter code/content</span>
+      </div>
+    </footer>
 
     <div id="chart-tooltip" class="chart-tooltip" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
