@@ -1,0 +1,111 @@
+body {
+  max-width: 1000px;
+  margin: 32px auto;
+  padding: 0 16px;
+  color: #26332e;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  background: #f5f6f2;
+}
+
+header {
+  margin-bottom: 24px;
+}
+
+h1, h2, p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 4px;
+}
+
+.chart-card {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e0e5df;
+  border-radius: 8px;
+  background: white;
+}
+
+.chart-card h2 {
+  margin-bottom: 4px;
+  font-size: 19px;
+}
+
+.chart-card p {
+  color: #626d67;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+  color: #46534d;
+  font-size: 13px;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.all-sizes {
+  background: #368b78;
+}
+
+.size-55 {
+  background: #e19a52;
+}
+
+.axis text, .legend-label {
+  fill: #59665f;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+}
+
+.axis path, .axis line {
+  stroke: #cfd7d0;
+}
+
+.grid line {
+  stroke: #e8ede8;
+}
+
+.grid path {
+  display: none;
+}
+
+.error {
+  padding: 12px;
+  border: 1px solid #d88;
+  background: #fff1f1;
+  color: #8a2020;
+}
+
+@media (min-width: 800px) {
+  #charts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .chart-card {
+    margin-bottom: 0;
+  }
+}

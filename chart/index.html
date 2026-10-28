@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TV Energy and Electricity Prices</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  </head>
+  <body>
+    <header>
+      <h1>TV Energy and Electricity Prices</h1>
+      <p>A few simple charts made with the provided datasets.</p>
+    </header>
+
+    <main id="charts">
+      <section class="chart-card">
+        <h2>Electricity spot prices by region</h2>
+        <p>Average annual price, 1998–2024 ($ per megawatt hour)</p>
+        <div id="price-legend" class="legend" aria-label="Price chart legend"></div>
+        <svg id="price-chart" viewBox="0 0 760 360" role="img" aria-label="Line chart of annual electricity spot prices by region"></svg>
+      </section>
+
+      <section class="chart-card">
+        <h2>TV energy use by screen technology</h2>
+        <p>Average labelled energy consumption (kWh/year)</p>
+        <div class="legend">
+          <span><i class="swatch all-sizes"></i>All sizes</span>
+          <span><i class="swatch size-55"></i>55-inch TVs</span>
+        </div>
+        <svg id="energy-chart" viewBox="0 0 760 360" role="img" aria-label="Bar chart comparing energy use for all TV sizes and 55-inch TVs"></svg>
+      </section>
+
+      <section class="chart-card">
+        <h2>Screen size and energy use</h2>
+        <p>Each dot represents a TV listing in the dataset.</p>
+        <svg id="scatter-chart" viewBox="0 0 760 360" role="img" aria-label="Scatter plot of TV screen size and energy consumption"></svg>
+      </section>
+
+      <section class="chart-card">
+        <h2>TV listings by screen technology</h2>
+        <p>Share of listings in the dataset, grouped by screen technology.</p>
+        <svg id="technology-chart" viewBox="0 0 400 320" role="img" aria-label="Donut chart showing the share of TV listings by screen technology"></svg>
+        <div id="technology-legend" class="legend"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
