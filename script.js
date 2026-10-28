@@ -11,10 +11,11 @@ Promise.all([
     drawScatterChart(televisions);
     drawTechnologyChart(televisions);
   })
-  .catch(() => {
+  .catch(error => {
+    console.error("Could not load the chart data:", error);
     const message = document.createElement("p");
     message.className = "error";
-    message.textContent = "Could not load the CSV files. Open this page using a local web server, such as VS Code Live Server.";
+    message.textContent = "Could not load the CSV files. Check the data folder and your internet connection.";
     document.querySelector("#charts").prepend(message);
   });
 
